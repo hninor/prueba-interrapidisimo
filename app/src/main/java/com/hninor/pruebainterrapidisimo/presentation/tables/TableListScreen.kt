@@ -81,7 +81,6 @@ fun ErrorScreen(retryAction: () -> Unit) {
 @Composable
 fun TablesGridScreen(tables: List<Table>, modifier: Modifier) {
     // Display a grid of photos using LazyVerticalGrid
-
     LazyColumn(
         modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
