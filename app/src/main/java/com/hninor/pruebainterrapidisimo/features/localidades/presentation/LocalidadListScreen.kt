@@ -74,7 +74,7 @@ fun ErrorScreen(retryAction: () -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = stringResource(id = R.string.error))
+        Text(text = stringResource(id = R.string.error_localidades), Modifier.padding(16.dp))
         Button(onClick = { retryAction() }) {
             Text(text = stringResource(id = R.string.intentar_nuevamente))
         }
@@ -86,6 +86,7 @@ fun ErrorScreen(retryAction: () -> Unit) {
 fun LocalidadesGridScreen(localidades: List<Localidad>, modifier: Modifier) {
     // Display a grid of photos using LazyVerticalGrid
     LazyColumn(
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp)
     ) {
