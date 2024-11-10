@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.AlertDialog
@@ -26,6 +27,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.hninor.pruebainterrapidisimo.R
 
@@ -141,7 +144,10 @@ fun LoginScreen(modifier: Modifier, onLogin: (username: String, password: String
         TextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Contraseña") }, modifier = Modifier.padding(16.dp)
+            label = { Text("Contraseña") },
+            modifier = Modifier.padding(16.dp),
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
         )
         Button(onClick = { onLogin(username, password) }, modifier = Modifier.padding(16.dp)) {
             Text(text = stringResource(id = R.string.login))
