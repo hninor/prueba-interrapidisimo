@@ -69,8 +69,12 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
 fun ErrorScreen(retryAction: () -> Unit) {
     // Display an error message with a retry button
 
-    Column {
-        Text(text = stringResource(id = R.string.error))
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = stringResource(id = R.string.error_tablas), Modifier.padding(16.dp))
         Button(onClick = { retryAction() }) {
             Text(text = stringResource(id = R.string.intentar_nuevamente))
         }
