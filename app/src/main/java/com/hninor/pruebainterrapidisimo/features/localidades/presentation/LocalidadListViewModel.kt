@@ -39,7 +39,7 @@ class LocalidadListViewModel(private val getLocalidadesUseCase: GetLocalidadesUs
             localidadListUiState = LocalidadListUiState.Loading
 
             localidadListUiState = try {
-                LocalidadListUiState.Success(getLocalidadesUseCase.invoke())
+                LocalidadListUiState.Success(getLocalidadesUseCase())
             } catch (e: Exception) {
                 LocalidadListUiState.Error
             }

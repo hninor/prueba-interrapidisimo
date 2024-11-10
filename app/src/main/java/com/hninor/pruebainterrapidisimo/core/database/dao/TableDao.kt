@@ -1,11 +1,11 @@
-package com.hninor.pruebainterrapidisimo.features.tablas.data.local.dao
+package com.hninor.pruebainterrapidisimo.core.database.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.hninor.pruebainterrapidisimo.features.tablas.data.local.dto.TableDTO
+import com.hninor.pruebainterrapidisimo.core.database.entitites.TableDTO
 
 @Dao
 interface TableDao {

@@ -1,4 +1,4 @@
-package com.hninor.pruebainterrapidisimo.features.tablas.data.local.dto
+package com.hninor.pruebainterrapidisimo.core.database.entitites
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

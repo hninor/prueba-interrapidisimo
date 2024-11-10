@@ -2,7 +2,7 @@ package com.hninor.pruebainterrapidisimo.features.tablas.data.repository
 
 import com.hninor.pruebainterrapidisimo.core.ApiException
 import com.hninor.pruebainterrapidisimo.features.tablas.data.local.TablesLocalDataSource
-import com.hninor.pruebainterrapidisimo.features.tablas.data.local.dto.asDomain
+import com.hninor.pruebainterrapidisimo.core.database.entitites.asDomain
 import com.hninor.pruebainterrapidisimo.features.tablas.data.network.TablesRemoteDataSource
 import com.hninor.pruebainterrapidisimo.features.tablas.data.network.dto.asDomain
 import com.hninor.pruebainterrapidisimo.features.tablas.domain.model.Table

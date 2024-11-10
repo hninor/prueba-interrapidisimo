@@ -1,7 +1,7 @@
 package com.hninor.pruebainterrapidisimo.features.tablas.data.local
 
-import com.hninor.pruebainterrapidisimo.features.tablas.data.local.dao.TableDao
-import com.hninor.pruebainterrapidisimo.features.tablas.data.local.dto.TableDTO
+import com.hninor.pruebainterrapidisimo.core.database.dao.TableDao
+import com.hninor.pruebainterrapidisimo.core.database.entitites.TableDTO
 
 class TablesLocalDataSource(private val tableDao: TableDao) {
 
