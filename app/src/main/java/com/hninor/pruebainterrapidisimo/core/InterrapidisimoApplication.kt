@@ -2,7 +2,7 @@ package com.hninor.pruebainterrapidisimo.core
 
 import android.app.Application
 import androidx.room.Room
-import com.hninor.pruebainterrapidisimo.data.local.AppDatabase
+import com.hninor.pruebainterrapidisimo.features.tablas.data.local.AppDatabase
 
 class InterrapidisimoApplication : Application() {
 

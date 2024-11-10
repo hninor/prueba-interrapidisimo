@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.hninor.pruebainterrapidisimo.presentation.tables.TableListScreen
-import com.hninor.pruebainterrapidisimo.presentation.theme.PruebaInterrapidisimoTheme
+import com.hninor.pruebainterrapidisimo.features.tablas.presentation.tables.TableListScreen
+import com.hninor.pruebainterrapidisimo.features.tablas.presentation.theme.PruebaInterrapidisimoTheme
 import com.hninor.pruebainterrapidisimo.presentation.theme.TableListViewModel
 
 class MainActivity : ComponentActivity() {
