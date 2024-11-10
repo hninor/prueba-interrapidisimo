@@ -1,5 +1,6 @@
 package com.hninor.pruebainterrapidisimo.features.login.presentation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
@@ -36,18 +39,22 @@ import com.hninor.pruebainterrapidisimo.R
 @Composable
 fun LoginScreenHome(
     loginUiState: LoginUiState,
-    onLogin: (username: String, password: String) -> Unit,
+    onLoginButtonClick: (username: String, password: String) -> Unit,
     onConfirmation: () -> Unit,
-    modifier: Modifier = Modifier
+    onLoginSuccess: () -> Unit
 ) {
     when (loginUiState) {
-        is LoginUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is LoginUiState.Success -> SuccessScreen(loginUiState.loginResponse.nombre, onConfirmation)
+        is LoginUiState.Loading -> LoadingScreen(modifier = Modifier.fillMaxSize())
+        is LoginUiState.Success -> onLoginSuccess()
         is LoginUiState.Error -> ErrorScreen(loginUiState.message, onConfirmation)
-        is LoginUiState.Home -> LoginScreen(modifier = modifier, onLogin = onLogin)
+        is LoginUiState.Home -> LoginScreen(
+            modifier = Modifier.fillMaxSize(),
+            onLoginButtonClick = onLoginButtonClick
+        )
 
     }
 }
+
 
 
 @Composable
@@ -73,18 +80,6 @@ fun ErrorScreen(message: String, onConfirmation: () -> Unit) {
         onConfirmation = onConfirmation,
         dialogTitle = "Atención",
         dialogText = message,
-        icon = Icons.Default.Info
-    )
-
-}
-
-@Composable
-fun SuccessScreen(nombre: String, onConfirmation: () -> Unit) {
-
-    AlertDialogExample(
-        onConfirmation = onConfirmation,
-        dialogTitle = "Atención",
-        dialogText = "Bienvenido(a) $nombre!",
         icon = Icons.Default.Info
     )
 
@@ -124,7 +119,10 @@ fun AlertDialogExample(
 }
 
 @Composable
-fun LoginScreen(modifier: Modifier, onLogin: (username: String, password: String) -> Unit) {
+fun LoginScreen(
+    modifier: Modifier,
+    onLoginButtonClick: (username: String, password: String) -> Unit
+) {
     // Display a grid of photos using LazyVerticalGrid
 
     var username by remember { mutableStateOf("") }
@@ -135,11 +133,17 @@ fun LoginScreen(modifier: Modifier, onLogin: (username: String, password: String
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = stringResource(id = R.string.dog_content_description)
+        )
+
         TextField(
             value = username,
             onValueChange = { username = it },
             label = { Text("Usuario") },
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp),
+            singleLine = true
         )
         TextField(
             value = password,
@@ -147,9 +151,14 @@ fun LoginScreen(modifier: Modifier, onLogin: (username: String, password: String
             label = { Text("Contraseña") },
             modifier = Modifier.padding(16.dp),
             visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            singleLine = true
         )
-        Button(onClick = { onLogin(username, password) }, modifier = Modifier.padding(16.dp)) {
+        Button(
+            onClick = { onLoginButtonClick(username, password) },
+            modifier = Modifier.padding(16.dp),
+            enabled = username.isNotEmpty() && password.isNotEmpty()
+        ) {
             Text(text = stringResource(id = R.string.login))
         }
 

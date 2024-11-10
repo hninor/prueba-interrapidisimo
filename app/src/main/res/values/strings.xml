@@ -5,4 +5,7 @@
     <string name="numero_campos">Número de campos:</string>
     <string name="error_localidades">No fue posible descargar las localidades</string>
     <string name="login">Ingresar</string>
+    <string name="dog_content_description">Logo interrapidisimo</string>
+    <string name="tablas">Tablas</string>
+    <string name="localidades">Localidades</string>
 </resources>

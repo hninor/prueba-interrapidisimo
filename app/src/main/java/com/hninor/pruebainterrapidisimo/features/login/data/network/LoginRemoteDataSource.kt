@@ -5,6 +5,7 @@ import com.hninor.pruebainterrapidisimo.features.login.data.network.dto.LoginReq
 import com.hninor.pruebainterrapidisimo.features.login.data.network.dto.LoginResponseDTO
 import retrofit2.HttpException
 import retrofit2.Response
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 
@@ -27,6 +28,8 @@ class LoginRemoteDataSource(private val loginApi: LoginApi) {
             throw ApiException("Http response: $errorCode, ${response?.errorBody().toString()}", e)
         } catch (e: UnknownHostException) {
             // Either the server is down or the device doesn't have internet access
+            throw ApiException("Revise su conexión a Internet", e)
+        } catch (e: SocketTimeoutException) {
             throw ApiException("Revise su conexión a Internet", e)
         }
     }

@@ -18,12 +18,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.hninor.pruebainterrapidisimo.core.theme.PruebaInterrapidisimoTheme
 import com.hninor.pruebainterrapidisimo.features.localidades.presentation.LocalidadListScreen
 import com.hninor.pruebainterrapidisimo.features.localidades.presentation.LocalidadListViewModel
-import com.hninor.pruebainterrapidisimo.features.login.presentation.LoginScreen
 import com.hninor.pruebainterrapidisimo.features.login.presentation.LoginScreenHome
 import com.hninor.pruebainterrapidisimo.features.login.presentation.LoginViewModel
+import com.hninor.pruebainterrapidisimo.features.menu.presentation.MenuScreen
 import com.hninor.pruebainterrapidisimo.features.tablas.presentation.TableListScreen
 import com.hninor.pruebainterrapidisimo.presentation.theme.TableListViewModel
 
@@ -32,7 +35,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PruebaInterrapidisimoTheme {
-                LoginApp()
+                AppHost()
             }
         }
     }
@@ -40,7 +43,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InterrapidisimoApp() {
+fun TablasApp() {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -83,27 +86,52 @@ fun LocalidadesApp() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginApp() {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { InterrapidisimoTopAppBar(scrollBehavior = scrollBehavior) }
-    ) {
-        Surface(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            val viewModel: LoginViewModel =
-                viewModel(factory = LoginViewModel.Factory)
-            LoginScreenHome(
-                loginUiState = viewModel.loginUiState,
-                onLogin = viewModel::login,
-                onConfirmation = viewModel::onConfirmation,
-                modifier = Modifier.padding(it)
-            )
+fun AppHost() {
+    val navController = rememberNavController()
+    val onLoginSuccess = {
+        navController.navigate(InterrapidisimoScreen.Menu.name)
+    }
+
+    NavHost(navController, startDestination = InterrapidisimoScreen.Login.name) {
+
+        composable(route = InterrapidisimoScreen.Login.name) {
+            LoginApp(onLoginSuccess)
+        }
+
+        composable(route = InterrapidisimoScreen.Menu.name) {
+            MenuScreen(onGoTablesScreen = { navController.navigate(InterrapidisimoScreen.Tables.name) }) {
+                navController.navigate(InterrapidisimoScreen.Places.name)
+            }
+        }
+
+        composable(route = InterrapidisimoScreen.Tables.name) {
+            TablasApp()
+        }
+
+        composable(route = InterrapidisimoScreen.Places.name) {
+            LocalidadesApp()
         }
     }
+
+}
+
+@Composable
+fun LoginApp(onLoginSuccess: () -> Unit) {
+    val viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.inversePrimary
+    ) {
+
+        LoginScreenHome(
+            loginUiState = viewModel.loginUiState,
+            onLoginButtonClick = viewModel::login,
+            onConfirmation = viewModel::onConfirmation,
+            onLoginSuccess = onLoginSuccess
+        )
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -122,4 +150,12 @@ fun InterrapidisimoTopAppBar(
         },
         modifier = modifier
     )
+}
+
+
+enum class InterrapidisimoScreen() {
+    Login,
+    Menu,
+    Tables,
+    Places
 }
