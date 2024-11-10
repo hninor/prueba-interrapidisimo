@@ -1,4 +1,4 @@
-package com.hninor.pruebainterrapidisimo.features.tablas.presentation.tables
+package com.hninor.pruebainterrapidisimo.features.tablas.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

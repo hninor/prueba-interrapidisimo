@@ -1,4 +1,4 @@
-package com.hninor.pruebainterrapidisimo.features.tablas.presentation.theme
+package com.hninor.pruebainterrapidisimo.core.theme
 
 import androidx.compose.ui.graphics.Color
 

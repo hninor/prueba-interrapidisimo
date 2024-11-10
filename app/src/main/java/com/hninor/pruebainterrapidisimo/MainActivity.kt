@@ -18,8 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.hninor.pruebainterrapidisimo.features.tablas.presentation.tables.TableListScreen
-import com.hninor.pruebainterrapidisimo.features.tablas.presentation.theme.PruebaInterrapidisimoTheme
+import com.hninor.pruebainterrapidisimo.core.theme.PruebaInterrapidisimoTheme
+import com.hninor.pruebainterrapidisimo.features.localidades.presentation.LocalidadListScreen
+import com.hninor.pruebainterrapidisimo.features.localidades.presentation.LocalidadListViewModel
+import com.hninor.pruebainterrapidisimo.features.tablas.presentation.TableListScreen
 import com.hninor.pruebainterrapidisimo.presentation.theme.TableListViewModel
 
 class MainActivity : ComponentActivity() {
@@ -27,7 +29,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PruebaInterrapidisimoTheme {
-                InterrapidisimoApp()
+                LocalidadesApp()
             }
         }
     }
@@ -49,6 +51,29 @@ fun InterrapidisimoApp() {
             TableListScreen(
                 tableListUiState = tableListViewModel.tableListUiState,
                 retryAction = tableListViewModel::getTables,
+                modifier = Modifier.padding(it)
+            )
+        }
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LocalidadesApp() {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = { InterrapidisimoTopAppBar(scrollBehavior = scrollBehavior) }
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            val viewModel: LocalidadListViewModel =
+                viewModel(factory = LocalidadListViewModel.Factory)
+            LocalidadListScreen(
+                localidadListUiState = viewModel.localidadListUiState,
+                retryAction = viewModel::getLocalidades,
                 modifier = Modifier.padding(it)
             )
         }

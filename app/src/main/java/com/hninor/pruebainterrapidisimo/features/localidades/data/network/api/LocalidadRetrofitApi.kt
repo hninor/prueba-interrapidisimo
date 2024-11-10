@@ -2,7 +2,6 @@ package com.hninor.pruebainterrapidisimo.features.localidades.data.network.api
 
 import com.hninor.pruebainterrapidisimo.features.localidades.data.network.LocalidadesApi
 import com.hninor.pruebainterrapidisimo.features.localidades.data.network.dto.LocalidadDTO
-import com.hninor.pruebainterrapidisimo.features.tablas.data.network.api.TableRetrofitApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,12 +13,10 @@ private const val BASE_URL = "https://apitesting.interrapidisimo.co/apicontrolle
 interface LocalidadRetrofitApi : LocalidadesApi {
 
     @GET("ParametrosFramework/ObtenerLocalidadesRecogidas")
-    override suspend fun getLocalidades(
-
-    ): List<LocalidadDTO>
+    override suspend fun getLocalidades(): List<LocalidadDTO>
 }
 
-fun provideTableRetrofitApi(): LocalidadRetrofitApi {
+fun provideLocalidadRetrofitApi(): LocalidadRetrofitApi {
 
     val logging = HttpLoggingInterceptor()
     logging.setLevel(HttpLoggingInterceptor.Level.BODY)

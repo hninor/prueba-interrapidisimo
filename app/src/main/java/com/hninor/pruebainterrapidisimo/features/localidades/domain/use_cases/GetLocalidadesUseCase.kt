@@ -1,10 +1,10 @@
 package com.hninor.pruebainterrapidisimo.features.localidades.domain.use_cases
 
-import com.hninor.pruebainterrapidisimo.features.tablas.domain.model.Table
-import com.hninor.pruebainterrapidisimo.features.tablas.domain.repository.TablesRepository
+import com.hninor.pruebainterrapidisimo.features.localidades.domain.model.Localidad
+import com.hninor.pruebainterrapidisimo.features.localidades.domain.repository.LocalidadesRepository
 
-class GetLocalidadesUseCase(private val tablesRepository: TablesRepository) {
-    suspend operator fun invoke(usuario: String, identificacion: String): List<Table> {
-        return tablesRepository.getTables(usuario, identificacion)
+class GetLocalidadesUseCase(private val localidadesRepository: LocalidadesRepository) {
+    suspend operator fun invoke(): List<Localidad> {
+        return localidadesRepository.getLocalidades()
     }
 }
