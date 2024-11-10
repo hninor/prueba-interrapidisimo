@@ -1,5 +1,6 @@
 package com.hninor.pruebainterrapidisimo.features.login.presentation
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
@@ -43,9 +44,18 @@ fun LoginScreenHome(
     onConfirmation: () -> Unit,
     onLoginSuccess: () -> Unit
 ) {
+    val context = LocalContext.current
     when (loginUiState) {
         is LoginUiState.Loading -> LoadingScreen(modifier = Modifier.fillMaxSize())
-        is LoginUiState.Success -> onLoginSuccess()
+        is LoginUiState.Success -> {
+            Toast.makeText(
+                context,
+                "Bienvenido(a) ${loginUiState.loginResponse.nombre}!",
+                Toast.LENGTH_LONG
+            ).show()
+            onLoginSuccess()
+        }
+
         is LoginUiState.Error -> ErrorScreen(loginUiState.message, onConfirmation)
         is LoginUiState.Home -> LoginScreen(
             modifier = Modifier.fillMaxSize(),
@@ -54,7 +64,6 @@ fun LoginScreenHome(
 
     }
 }
-
 
 
 @Composable

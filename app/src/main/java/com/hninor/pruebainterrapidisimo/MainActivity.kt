@@ -3,10 +3,12 @@ package com.hninor.pruebainterrapidisimo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -15,13 +17,22 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.hninor.pruebainterrapidisimo.core.theme.PruebaInterrapidisimoTheme
+import com.hninor.pruebainterrapidisimo.core.theme.primaryFontFamily
 import com.hninor.pruebainterrapidisimo.features.localidades.presentation.LocalidadListScreen
 import com.hninor.pruebainterrapidisimo.features.localidades.presentation.LocalidadListViewModel
 import com.hninor.pruebainterrapidisimo.features.login.presentation.LoginScreenHome
@@ -47,7 +58,13 @@ fun TablasApp() {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { InterrapidisimoTopAppBar(scrollBehavior = scrollBehavior) }
+        topBar = {
+            InterrapidisimoTopAppBar(
+                scrollBehavior = scrollBehavior, title = stringResource(
+                    id = R.string.tablas
+                )
+            )
+        }
     ) {
         Surface(
             modifier = Modifier.fillMaxSize()
@@ -70,7 +87,13 @@ fun LocalidadesApp() {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { InterrapidisimoTopAppBar(scrollBehavior = scrollBehavior) }
+        topBar = {
+            InterrapidisimoTopAppBar(
+                scrollBehavior = scrollBehavior, title = stringResource(
+                    id = R.string.localidades
+                )
+            )
+        }
     ) {
         Surface(
             modifier = Modifier.fillMaxSize()
@@ -138,17 +161,38 @@ fun LoginApp(onLoginSuccess: () -> Unit) {
 @Composable
 fun InterrapidisimoTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    title: String,
+    onBack: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
         scrollBehavior = scrollBehavior,
         title = {
             Text(
-                text = stringResource(R.string.app_name),
-                style = MaterialTheme.typography.headlineSmall,
+                text = title,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontFamily = primaryFontFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                ),
             )
         },
-        modifier = modifier
+
+        navigationIcon = {
+            IconButton(
+                onClick = { onBack.invoke() }, modifier = Modifier.padding(start = 8.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_nav_back),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(Color.White)
+                )
+            }
+        },
+        modifier = modifier,
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
     )
 }
 
