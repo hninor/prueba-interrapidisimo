@@ -4,4 +4,5 @@
     <string name="intentar_nuevamente">Intentar nuevamente</string>
     <string name="numero_campos">Número de campos:</string>
     <string name="error_localidades">No fue posible descargar las localidades</string>
+    <string name="login">Ingresar</string>
 </resources>

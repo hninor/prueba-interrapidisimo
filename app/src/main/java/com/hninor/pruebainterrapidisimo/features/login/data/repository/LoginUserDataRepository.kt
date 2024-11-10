@@ -1,8 +1,8 @@
 package com.hninor.pruebainterrapidisimo.features.login.data.repository
 
+import com.hninor.pruebainterrapidisimo.core.DataException
 import com.hninor.pruebainterrapidisimo.features.login.data.local.LoginLocalDataSource
 import com.hninor.pruebainterrapidisimo.features.login.data.network.LoginRemoteDataSource
-import com.hninor.pruebainterrapidisimo.features.login.data.network.LoginResponseState
 import com.hninor.pruebainterrapidisimo.features.login.data.network.dto.LoginRequest
 import com.hninor.pruebainterrapidisimo.features.login.data.network.dto.toUserDB
 import com.hninor.pruebainterrapidisimo.features.login.domain.model.LoginResponse
@@ -19,28 +19,19 @@ class LoginUserDataRepository(
     override suspend fun login(usuario: String, contrasena: String): LoginResponse =
         withContext(backgroundDispatcher) {
             val loginRequest = if (usuario == "pam.meredy21") {
-                LoginRequest(Usuario = "cGFtLm1lcmVkeTIx\\n", Password = "SW50ZXIyMDIx\\n")
+                LoginRequest(Usuario = "cGFtLm1lcmVkeTIx", Password = "SW50ZXIyMDIx")
             } else {
                 LoginRequest(Usuario = usuario, Password = contrasena)
             }
-            val loginResponseState = loginRemoteDataSource.login(loginRequest)
+            val loginResponseDTO = loginRemoteDataSource.login(loginRequest)
 
-            when (loginResponseState) {
-                is LoginResponseState.Success -> {
-                    loginLocalDataSource.saveUser(loginResponseState.loginResponseDTO.toUserDB())
-                    LoginResponse(true)
-                }
-
-                is LoginResponseState.Error -> {
-                    LoginResponse(false, loginResponseState.message)
-
-                }
-
-                else -> {
-                    LoginResponse(false)
-
-                }
+            try {
+                loginLocalDataSource.saveUser(loginResponseDTO.toUserDB())
+            } catch (e: Exception) {
+                throw DataException("La respuesta no pudo ser guardada localmente")
             }
+
+            LoginResponse(loginResponseDTO.Nombre)
 
         }
 

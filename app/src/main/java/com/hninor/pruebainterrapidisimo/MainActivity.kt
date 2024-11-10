@@ -21,6 +21,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hninor.pruebainterrapidisimo.core.theme.PruebaInterrapidisimoTheme
 import com.hninor.pruebainterrapidisimo.features.localidades.presentation.LocalidadListScreen
 import com.hninor.pruebainterrapidisimo.features.localidades.presentation.LocalidadListViewModel
+import com.hninor.pruebainterrapidisimo.features.login.presentation.LoginScreen
+import com.hninor.pruebainterrapidisimo.features.login.presentation.LoginScreenHome
+import com.hninor.pruebainterrapidisimo.features.login.presentation.LoginViewModel
 import com.hninor.pruebainterrapidisimo.features.tablas.presentation.TableListScreen
 import com.hninor.pruebainterrapidisimo.presentation.theme.TableListViewModel
 
@@ -29,7 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PruebaInterrapidisimoTheme {
-                LocalidadesApp()
+                LoginApp()
             }
         }
     }
@@ -74,6 +77,29 @@ fun LocalidadesApp() {
             LocalidadListScreen(
                 localidadListUiState = viewModel.localidadListUiState,
                 retryAction = viewModel::getLocalidades,
+                modifier = Modifier.padding(it)
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LoginApp() {
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = { InterrapidisimoTopAppBar(scrollBehavior = scrollBehavior) }
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            val viewModel: LoginViewModel =
+                viewModel(factory = LoginViewModel.Factory)
+            LoginScreenHome(
+                loginUiState = viewModel.loginUiState,
+                onLogin = viewModel::login,
+                onConfirmation = viewModel::onConfirmation,
                 modifier = Modifier.padding(it)
             )
         }
