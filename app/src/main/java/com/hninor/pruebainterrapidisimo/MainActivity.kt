@@ -112,8 +112,12 @@ fun LocalidadesApp() {
 @Composable
 fun AppHost() {
     val navController = rememberNavController()
-    val onLoginSuccess = {
-        navController.navigate(InterrapidisimoScreen.Menu.name)
+    val onLoginSuccess: () -> Unit = {
+        navController.navigate(InterrapidisimoScreen.Menu.name) {
+            popUpTo(InterrapidisimoScreen.Login.name) {
+                inclusive = true
+            }
+        }
     }
 
     NavHost(navController, startDestination = InterrapidisimoScreen.Login.name) {

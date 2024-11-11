@@ -21,13 +21,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.hninor.pruebainterrapidisimo.InterrapidisimoTopAppBar
 import com.hninor.pruebainterrapidisimo.R
+import com.hninor.pruebainterrapidisimo.core.theme.primaryFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MenuScreen(onGoTablesScreen: () -> Unit, onGoPlacesScreen: () -> Unit) {
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -52,7 +53,7 @@ fun MenuScreen(onGoTablesScreen: () -> Unit, onGoPlacesScreen: () -> Unit) {
                         .fillMaxWidth()
                         .padding(16.dp)
                 ) {
-                    Text(text = stringResource(id = R.string.tablas))
+                    Text(text = stringResource(id = R.string.tablas), fontFamily = primaryFontFamily)
                 }
 
                 Button(
@@ -61,7 +62,7 @@ fun MenuScreen(onGoTablesScreen: () -> Unit, onGoPlacesScreen: () -> Unit) {
                         .fillMaxWidth()
                         .padding(16.dp)
                 ) {
-                    Text(text = stringResource(id = R.string.localidades))
+                    Text(text = stringResource(id = R.string.localidades), fontFamily = primaryFontFamily)
                 }
             }
         }
