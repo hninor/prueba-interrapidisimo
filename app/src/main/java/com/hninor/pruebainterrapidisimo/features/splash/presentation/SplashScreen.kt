@@ -6,9 +6,10 @@ import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,12 +22,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hninor.pruebainterrapidisimo.R
+import com.hninor.pruebainterrapidisimo.core.theme.Pink80
+import com.hninor.pruebainterrapidisimo.core.theme.Purple80
+import com.hninor.pruebainterrapidisimo.core.theme.PurpleGrey80
+import com.hninor.pruebainterrapidisimo.core.theme.primaryFontFamily
 import kotlinx.coroutines.delay
 
 @Composable
@@ -55,42 +60,85 @@ fun DesignSplashScreen(
     imagePainter: Painter,
     scaleAnimation: Animatable<Float, AnimationVector1D>
 ) {
-    Box(
-        modifier = modifier
+
+    Column(
+        modifier = Modifier
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
-                        Color(239, 127, 26),
-                        Color(120, 40, 140),
-                        Color(0, 47, 187),
+                        Purple80,
+                        PurpleGrey80,
+                        Pink80,
                     )
                 )
             ),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(
-                painter = imagePainter,
-                contentDescription = "Logotipo Splash Screen",
-                modifier = modifier
-                    .size(400.dp)
-                    .scale(scale = scaleAnimation.value),
-            )
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
 
-            Text(
-                text = "Aquí va el logotipo de su preferencia",
-                color = Color.White,
-                fontSize = 40.sp,
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = FontFamily.Serif,
-                textAlign = TextAlign.Center,
-                modifier = modifier.scale(
-                    scale =
-                    scaleAnimation.value
+    ) {
+        Image(
+            painter = imagePainter,
+            contentDescription = "Logotipo Splash Screen",
+            modifier = modifier
+                .size(300.dp)
+                .scale(scale = scaleAnimation.value),
+        )
+
+        Text(
+            text = stringResource(id = R.string.bienvenidos_reclutadores),
+            color = Color.White,
+            fontSize = 40.sp,
+            fontFamily = primaryFontFamily,
+            textAlign = TextAlign.Center,
+            modifier = modifier
+                .padding(16.dp)
+                .scale(scale = scaleAnimation.value),
+            lineHeight = 40.sp
+        )
+    }
+
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun SplashPreview() {
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        Purple80,
+                        PurpleGrey80,
+                        Pink80,
+                    )
                 )
-            )
-        }
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "Logotipo Splash Screen",
+            modifier = Modifier
+                .size(300.dp)
+
+        )
+
+        Text(
+            text = stringResource(id = R.string.bienvenidos_reclutadores),
+            color = Color.White,
+            fontSize = 40.sp,
+            fontFamily = primaryFontFamily,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(16.dp),
+            lineHeight = 40.sp
+
+        )
     }
 }
 
@@ -105,7 +153,7 @@ fun AnimationSplashContent(
 
     LaunchedEffect(key1 = true) {
         scaleAnimation.animateTo(
-            targetValue = 0.5F,
+            targetValue = 1F,
             animationSpec = tween(
                 durationMillis = durationMillisAnimation,
                 easing = {
