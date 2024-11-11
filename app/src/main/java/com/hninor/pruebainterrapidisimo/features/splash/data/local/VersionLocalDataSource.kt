@@ -15,7 +15,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 class VersionLocalDataSource(private val context: Context) {
 
     private val VERSION = stringPreferencesKey("version")
-    suspend fun getVersion() : String  = getPreferences()[VERSION] ?: "0"
+    suspend fun getVersion() : String  = getPreferences()[VERSION] ?: "1"
 
     suspend fun saveVersion(version: String) {
         context.dataStore.edit { preferences ->
