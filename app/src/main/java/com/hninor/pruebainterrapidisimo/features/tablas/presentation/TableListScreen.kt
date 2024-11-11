@@ -21,10 +21,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hninor.pruebainterrapidisimo.R
+import com.hninor.pruebainterrapidisimo.core.theme.primaryFontFamily
 import com.hninor.pruebainterrapidisimo.features.tablas.domain.model.Table
 import com.hninor.pruebainterrapidisimo.presentation.theme.TableListUiState
 
@@ -100,13 +102,13 @@ fun TablesGridScreen(tables: List<Table>, modifier: Modifier) {
 fun TableItem(item: Table) {
     Card {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = item.nombre, fontWeight = FontWeight.Bold, fontSize = 24.sp)
+            Text(text = item.nombre, fontWeight = FontWeight.Bold, fontSize = 20.sp, fontFamily = primaryFontFamily)
             Spacer(modifier = Modifier.padding(8.dp))
-            Text(text = item.queryCreacion)
+            Text(text = item.queryCreacion, fontFamily = primaryFontFamily, fontStyle = FontStyle.Italic)
             Row {
-                Text(text = stringResource(id = R.string.numero_campos))
-
-                Text(text = item.numeroCampos.toString())
+                Text(text = stringResource(id = R.string.numero_campos), fontFamily = primaryFontFamily)
+                Spacer(modifier = Modifier.padding(4.dp))
+                Text(text = item.numeroCampos.toString(), fontFamily = primaryFontFamily)
             }
 
         }

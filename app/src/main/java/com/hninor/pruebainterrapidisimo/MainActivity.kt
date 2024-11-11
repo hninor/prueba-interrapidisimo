@@ -54,15 +54,15 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TablasApp() {
+fun TablasApp(onBack: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             InterrapidisimoTopAppBar(
-                scrollBehavior = scrollBehavior, title = stringResource(
-                    id = R.string.tablas
-                )
+                scrollBehavior = scrollBehavior,
+                title = stringResource(id = R.string.tablas),
+                onBack = onBack
             )
         }
     ) {
@@ -83,15 +83,15 @@ fun TablasApp() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LocalidadesApp() {
+fun LocalidadesApp(onBack: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             InterrapidisimoTopAppBar(
-                scrollBehavior = scrollBehavior, title = stringResource(
-                    id = R.string.localidades
-                )
+                scrollBehavior = scrollBehavior,
+                title = stringResource(id = R.string.localidades),
+                onBack = onBack
             )
         }
     ) {
@@ -133,11 +133,20 @@ fun AppHost() {
         }
 
         composable(route = InterrapidisimoScreen.Tables.name) {
-            TablasApp()
+            TablasApp {
+                if (!navController.popBackStack()) {
+                    navController.navigate(InterrapidisimoScreen.Menu.name)
+                }
+
+            }
         }
 
         composable(route = InterrapidisimoScreen.Places.name) {
-            LocalidadesApp()
+            LocalidadesApp {
+                if (!navController.popBackStack()) {
+                    navController.navigate(InterrapidisimoScreen.Menu.name)
+                }
+            }
         }
     }
 
@@ -196,7 +205,10 @@ fun InterrapidisimoTopAppBar(
             }
         },
         modifier = modifier,
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            scrolledContainerColor = MaterialTheme.colorScheme.primary
+        )
     )
 }
 
