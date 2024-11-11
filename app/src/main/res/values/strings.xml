@@ -10,6 +10,6 @@
     <string name="localidades">Localidades</string>
     <string name="menu">Menú</string>
     <string name="bienvenidos_reclutadores">Bienvenidos reclutadores!</string>
-    <string name="update_version">Por favor, actualiza tu versión a la número %s</string>
+    <string name="update_version">Actualiza la versión de tu aplicativo a la número %s</string>
     <string name="downgrade_version">La versión número %s no está soportada, retorne a la versión %s</string>
 </resources>
