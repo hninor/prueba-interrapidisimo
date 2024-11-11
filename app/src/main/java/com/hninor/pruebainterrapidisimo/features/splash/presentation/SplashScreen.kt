@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hninor.pruebainterrapidisimo.R
 import com.hninor.pruebainterrapidisimo.core.theme.Pink80
 import com.hninor.pruebainterrapidisimo.core.theme.Purple80
@@ -36,6 +37,9 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navigateToLogin: () -> Unit) {
+
+    val viewModel: SplashViewModel =
+        viewModel(factory = SplashViewModel.Factory)
 
     val scaleAnimation: Animatable<Float, AnimationVector1D> =
         remember { Animatable(initialValue = 0f) }
@@ -87,7 +91,7 @@ fun DesignSplashScreen(
 
         Text(
             text = stringResource(id = R.string.bienvenidos_reclutadores),
-            color = Color.White,
+            color = MaterialTheme.colorScheme.secondary,
             fontSize = 40.sp,
             fontFamily = primaryFontFamily,
             textAlign = TextAlign.Center,
@@ -131,7 +135,7 @@ fun SplashPreview() {
 
         Text(
             text = stringResource(id = R.string.bienvenidos_reclutadores),
-            color = Color.White,
+            color = MaterialTheme.colorScheme.secondary,
             fontSize = 40.sp,
             fontFamily = primaryFontFamily,
             textAlign = TextAlign.Center,
