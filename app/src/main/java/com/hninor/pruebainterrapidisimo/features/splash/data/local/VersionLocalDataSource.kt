@@ -23,6 +23,26 @@ class VersionLocalDataSource(private val context: Context) {
         }
     }
 
+    suspend fun getLocalVersionName() : String {
+        val manager = context.packageManager
+        val info = manager.getPackageInfo(
+            context.packageName, 0
+        )
+        val version = info.versionName
+
+        return version
+    }
+
+    suspend fun getLocalVersion() : Int {
+        val manager = context.packageManager
+        val info = manager.getPackageInfo(
+            context.packageName, 0
+        )
+        val version = info.versionCode
+
+        return version
+    }
+
 
     private suspend fun getPreferences(): Preferences =
         context.dataStore.data.first()

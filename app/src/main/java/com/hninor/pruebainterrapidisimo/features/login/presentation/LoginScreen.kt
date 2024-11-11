@@ -35,9 +35,11 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hninor.pruebainterrapidisimo.R
+import com.hninor.pruebainterrapidisimo.core.theme.primaryFontFamily
 
 
 @Composable
@@ -52,7 +54,8 @@ fun LoginApp(navigateToMenu: () -> Unit) {
             loginUiState = viewModel.loginUiState,
             onLoginButtonClick = viewModel::login,
             onConfirmation = viewModel::onConfirmation,
-            navigateToMenu = navigateToMenu
+            navigateToMenu = navigateToMenu,
+            version = viewModel.version
         )
     }
 
@@ -64,7 +67,8 @@ fun LoginScreenHome(
     loginUiState: LoginUiState,
     onLoginButtonClick: (username: String, password: String) -> Unit,
     onConfirmation: () -> Unit,
-    navigateToMenu: () -> Unit
+    navigateToMenu: () -> Unit,
+    version: String
 ) {
     val context = LocalContext.current
     when (loginUiState) {
@@ -81,7 +85,8 @@ fun LoginScreenHome(
         is LoginUiState.Error -> ErrorScreen(loginUiState.message, onConfirmation)
         is LoginUiState.Home -> LoginScreen(
             modifier = Modifier.fillMaxSize(),
-            onLoginButtonClick = onLoginButtonClick
+            onLoginButtonClick = onLoginButtonClick,
+            version = version
         )
 
     }
@@ -152,48 +157,68 @@ fun AlertDialogExample(
 @Composable
 fun LoginScreen(
     modifier: Modifier,
-    onLoginButtonClick: (username: String, password: String) -> Unit
+    onLoginButtonClick: (username: String, password: String) -> Unit,
+    version: String
 ) {
     // Display a grid of photos using LazyVerticalGrid
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
 
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = stringResource(id = R.string.dog_content_description)
-        )
-
-        TextField(
-            value = username,
-            onValueChange = { username = it },
-            label = { Text("Usuario") },
-            modifier = Modifier.padding(16.dp),
-            singleLine = true
-        )
-        TextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Contraseña") },
-            modifier = Modifier.padding(16.dp),
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            singleLine = true
-        )
-        Button(
-            onClick = { onLoginButtonClick(username, password) },
-            modifier = Modifier.padding(16.dp),
-            enabled = username.isNotEmpty() && password.isNotEmpty()
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = stringResource(id = R.string.login))
+
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = stringResource(id = R.string.dog_content_description)
+            )
+
+            TextField(
+                value = username,
+                onValueChange = { username = it },
+                label = { Text("Usuario") },
+                modifier = Modifier.padding(16.dp),
+                singleLine = true
+            )
+            TextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Contraseña") },
+                modifier = Modifier.padding(16.dp),
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                singleLine = true
+            )
+            Button(
+                onClick = { onLoginButtonClick(username, password) },
+                modifier = Modifier.padding(16.dp),
+                enabled = username.isNotEmpty() && password.isNotEmpty()
+            ) {
+                Text(text = stringResource(id = R.string.login))
+            }
+
         }
 
+        Text(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(16.dp),
+            text = "Versión: $version",
+            fontFamily = primaryFontFamily,
+            color = MaterialTheme.colorScheme.primary
+        )
     }
 
+
+}
+
+@Preview
+@Composable
+fun PreviewLogin() {
+    LoginScreen(modifier = Modifier, onLoginButtonClick = { a, b -> }, version = "45")
 }
 

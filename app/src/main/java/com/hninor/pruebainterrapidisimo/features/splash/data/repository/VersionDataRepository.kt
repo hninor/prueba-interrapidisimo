@@ -12,16 +12,24 @@ class VersionDataRepository(
     private val versionRemoteDataSource: VersionRemoteDataSource,
     private val backgroundDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : VersionRepository {
-    override suspend fun getVersion(fromRemote: Boolean): String =
+    override suspend fun getVersion(fromRemote: Boolean): Int =
         withContext(backgroundDispatcher) {
             if (fromRemote) {
                 val version = versionRemoteDataSource.getVersion()
                 versionLocalDataSource.saveVersion(version)
-                version
+                version.toInt()
             } else {
-                versionLocalDataSource.getVersion()
+                versionLocalDataSource.getVersion().toInt()
             }
         }
+
+    override suspend fun getLocalVersionName(): String = withContext(backgroundDispatcher) {
+        versionLocalDataSource.getLocalVersionName()
+    }
+
+    override suspend fun getLocalVersion(): Int = withContext(backgroundDispatcher) {
+        versionLocalDataSource.getLocalVersion()
+    }
 
 
 }
