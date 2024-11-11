@@ -14,6 +14,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -34,7 +36,27 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hninor.pruebainterrapidisimo.R
+
+
+@Composable
+fun LoginApp(navigateToMenu: () -> Unit) {
+    val viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.inversePrimary
+    ) {
+
+        LoginScreenHome(
+            loginUiState = viewModel.loginUiState,
+            onLoginButtonClick = viewModel::login,
+            onConfirmation = viewModel::onConfirmation,
+            navigateToMenu = navigateToMenu
+        )
+    }
+
+}
 
 
 @Composable
@@ -42,7 +64,7 @@ fun LoginScreenHome(
     loginUiState: LoginUiState,
     onLoginButtonClick: (username: String, password: String) -> Unit,
     onConfirmation: () -> Unit,
-    onLoginSuccess: () -> Unit
+    navigateToMenu: () -> Unit
 ) {
     val context = LocalContext.current
     when (loginUiState) {
@@ -53,7 +75,7 @@ fun LoginScreenHome(
                 "Bienvenido(a) ${loginUiState.loginResponse.nombre}!",
                 Toast.LENGTH_LONG
             ).show()
-            onLoginSuccess()
+            navigateToMenu()
         }
 
         is LoginUiState.Error -> ErrorScreen(loginUiState.message, onConfirmation)

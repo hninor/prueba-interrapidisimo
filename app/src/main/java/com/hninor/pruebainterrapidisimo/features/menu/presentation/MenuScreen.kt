@@ -19,8 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.hninor.pruebainterrapidisimo.InterrapidisimoTopAppBar
 import com.hninor.pruebainterrapidisimo.R
+import com.hninor.pruebainterrapidisimo.core.screens.InterrapidisimoTopAppBar
 import com.hninor.pruebainterrapidisimo.core.theme.primaryFontFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
