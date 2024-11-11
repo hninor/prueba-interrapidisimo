@@ -12,6 +12,7 @@ import com.hninor.pruebainterrapidisimo.R
 import com.hninor.pruebainterrapidisimo.core.ApiException
 import com.hninor.pruebainterrapidisimo.core.DataException
 import com.hninor.pruebainterrapidisimo.core.InterrapidisimoApplication
+import com.hninor.pruebainterrapidisimo.core.InterrapidisimoApplication.Companion.appContext
 import com.hninor.pruebainterrapidisimo.features.login.data.local.LoginLocalDataSource
 import com.hninor.pruebainterrapidisimo.features.login.data.network.LoginRemoteDataSource
 import com.hninor.pruebainterrapidisimo.features.login.data.network.api.provideLoginRetrofitApi
@@ -22,6 +23,7 @@ import com.hninor.pruebainterrapidisimo.features.splash.data.local.VersionLocalD
 import com.hninor.pruebainterrapidisimo.features.splash.data.network.VersionRemoteDataSource
 import com.hninor.pruebainterrapidisimo.features.splash.data.network.api.provideVersionRetrofitApi
 import com.hninor.pruebainterrapidisimo.features.splash.data.repository.VersionDataRepository
+import com.hninor.pruebainterrapidisimo.features.splash.domain.use_cases.CompareResult
 import com.hninor.pruebainterrapidisimo.features.splash.domain.use_cases.CompareVersionsUseCase
 import com.hninor.pruebainterrapidisimo.features.splash.domain.use_cases.GetVersionUseCase
 import kotlinx.coroutines.launch
@@ -47,6 +49,8 @@ class LoginViewModel(
     var version: String by mutableStateOf("")
         private set
 
+
+
     init {
         getVersion()
         compareVersions()
@@ -54,15 +58,36 @@ class LoginViewModel(
 
     private fun compareVersions() {
         viewModelScope.launch {
-            if (compareVersionsUseCase()) {
-                val ultimaVersion = getVersionUseCase(false).toString()
-                loginUiState = LoginUiState.Error(
-                    InterrapidisimoApplication.appContext.getString(
-                        R.string.update_version,
-                        ultimaVersion
+            val result = compareVersionsUseCase()
+
+            when (result) {
+                CompareResult.GREATER -> {
+                    val ultimaVersion = getVersionUseCase(false).toString()
+                    val versionLocal = getVersionUseCase.getLocalVersion().toString()
+                    loginUiState = LoginUiState.Error(
+                        appContext.getString(
+                            R.string.downgrade_version,
+                            versionLocal,
+                            ultimaVersion
+                        )
                     )
-                )
+                }
+
+                CompareResult.LESS_THAN -> {
+                    val ultimaVersion = getVersionUseCase(false).toString()
+                    loginUiState = LoginUiState.Error(
+                        appContext.getString(
+                            R.string.update_version,
+                            ultimaVersion
+                        )
+                    )
+                }
+
+                else -> {
+
+                }
             }
+
         }
     }
 
