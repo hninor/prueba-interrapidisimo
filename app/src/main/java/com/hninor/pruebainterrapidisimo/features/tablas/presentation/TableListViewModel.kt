@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.hninor.pruebainterrapidisimo.core.InterrapidisimoApplication
+import com.hninor.pruebainterrapidisimo.core.InterrapidisimoApplication.Companion.appContext
 import com.hninor.pruebainterrapidisimo.features.tablas.data.local.TablesLocalDataSource
 import com.hninor.pruebainterrapidisimo.features.tablas.data.network.TablesRemoteDataSource
 import com.hninor.pruebainterrapidisimo.features.tablas.data.network.api.provideTableRetrofitApi
@@ -57,7 +58,7 @@ class TableListViewModel(private val getTablesUseCase: GetTablesUseCase) : ViewM
                         TablesDataRepository(
                             TablesRemoteDataSource(
                                 provideTableRetrofitApi()
-                            ), TablesLocalDataSource(InterrapidisimoApplication.database.tableDao())
+                            ), TablesLocalDataSource(InterrapidisimoApplication.database.tableDao(), appContext)
                         )
                     )
                 )

@@ -22,6 +22,7 @@ class TablesDataRepository(
             try {
                 val tables = tablesRemoteDataSource.getTables(usuario, identificacion)
                 tablesLocalDataSource.insertTables(usuario, identificacion, tables)
+                tablesLocalDataSource.createDatabase(tables)
                 tables.asDomain()
             } catch (e: ApiException) {
                 val tables = tablesLocalDataSource.getTables(usuario, identificacion)
